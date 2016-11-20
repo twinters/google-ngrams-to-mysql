@@ -60,7 +60,13 @@ public class NgramLoader {
 
 	public static void main(String[] args)
 			throws NumberFormatException, ClassNotFoundException, URISyntaxException, SQLException {
-		NgramLoader loader = new NgramLoader();
-		loader.execute();
+		for (int i = 1; i < 10; i++) {
+			NgramLoader loader = new NgramLoader(new NgramCsvReader(System.getenv("ngram_db_file_prefix")+i+".csv"),
+					new NgramMySQLConnector(System.getenv("ngram_db_host"),
+							Integer.parseInt(System.getenv("ngram_db_port")), System.getenv("ngram_db_username"),
+							System.getenv("ngram_db_password"), System.getenv("ngram_db_databaseName")));
+			loader.execute();
+			System.out.println("Done " + i);
+		}
 	}
 }
