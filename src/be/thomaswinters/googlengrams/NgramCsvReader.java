@@ -21,14 +21,14 @@ public class NgramCsvReader {
 		this(ngramCsvPath, "\t");
 	}
 
-	public void convert(Function<String, Function<Integer, Consumer<Long>>> consumer) {
+	public void convert(Function<String, Function<Integer, Consumer<Integer>>> consumer) {
 		BufferedReader br = null;
 		String line = "";
 		try {
 			br = new BufferedReader(new FileReader(ngramCsvPath));
 			while ((line = br.readLine()) != null) {
 				String[] args = line.split(seperator);
-				consumer.apply(args[0]).apply(Integer.parseInt(args[1])).accept(Long.parseLong(args[2]));
+				consumer.apply(args[0]).apply(Integer.parseInt(args[1])).accept(Integer.parseInt(args[2]));
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
