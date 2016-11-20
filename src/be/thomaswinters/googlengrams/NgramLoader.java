@@ -28,6 +28,11 @@ public class NgramLoader {
 
 	public void execute() {
 		reader.convert(e -> f -> g -> store(e, f, g));
+		try {
+			connector.close();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 
 	}
 

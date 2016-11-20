@@ -65,8 +65,6 @@ public class NgramMySQLConnector {
 
 			// execute the preparedstatement
 			addUsedTweetPS.execute();
-
-			conn.close();
 		} catch (Exception e) {
 			System.err.println("Got an exception!");
 			System.err.println(e.getMessage());
@@ -78,6 +76,10 @@ public class NgramMySQLConnector {
 		new NgramMySQLConnector(System.getenv("ngram_db_host"), Integer.parseInt(System.getenv("ngram_db_port")),
 				System.getenv("ngram_db_username"), System.getenv("ngram_db_password"),
 				System.getenv("ngram_db_databaseName"));
+	}
+
+	public void close() throws SQLException {
+		conn.close();
 	}
 
 }
