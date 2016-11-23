@@ -69,18 +69,16 @@ public class NgramMySQLConnector {
 		b.append(n);
 		b.append("grams (");
 		for (int i = 1; i <= n; i++) {
-			b.append("word" + n);
-			if (i < n) {
-				b.append(" ");
-			}
+			b.append("word" + i+ ", ");
 		}
-		b.append(") values(");
-		for (int i = 1; i <= n; i++) {
+		b.append("count) values (");
+		for (int i = 1; i <= n+1; i++) {
 			b.append("?");
-			if (i < n) {
-				b.append(" ");
+			if (i <= n) {
+				b.append(", ");
 			}
 		}
+		b.append(")");
 		return b.toString();
 	}
 
@@ -92,7 +90,7 @@ public class NgramMySQLConnector {
 			// create the mysql insert preparedstatement
 			PreparedStatement addUsedTweetPS = getConnection().prepareStatement(addCountQuery);
 			for (int i = 1; i <= n; i++) {
-				addUsedTweetPS.setString(i, words.get(i));				
+				addUsedTweetPS.setString(i, words.get(i-1));				
 			}
 			addUsedTweetPS.setLong(n+1, count);
 
@@ -100,7 +98,7 @@ public class NgramMySQLConnector {
 			addUsedTweetPS.execute();
 		} catch (Exception e) {
 			System.err.println("Got an exception!");
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	/*-********************************************-*/

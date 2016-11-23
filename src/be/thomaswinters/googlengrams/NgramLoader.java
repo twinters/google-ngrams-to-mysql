@@ -62,9 +62,9 @@ public class NgramLoader {
 
 	public static void main(String[] args)
 			throws NumberFormatException, ClassNotFoundException, URISyntaxException, SQLException {
-		for (int i = 1; i < 10; i++) {
-			NgramLoader loader = new NgramLoader(new NgramCsvReader(System.getenv("ngram_db_file_prefix") + i + ".csv"),
-					new NgramMySQLConnector(1, System.getenv("ngram_db_host"),
+		for (int i = 0; i < 100; i++) {
+			NgramLoader loader = new NgramLoader(new NgramCsvReader(System.getenv("ngram_csv_file_prefix") + i + ".csv"),
+					new NgramMySQLConnector(2, System.getenv("ngram_db_host"),
 							Integer.parseInt(System.getenv("ngram_db_port")), System.getenv("ngram_db_username"),
 							System.getenv("ngram_db_password"), System.getenv("ngram_db_databaseName")));
 			loader.execute();
