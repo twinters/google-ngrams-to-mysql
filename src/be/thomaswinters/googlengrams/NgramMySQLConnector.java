@@ -87,6 +87,9 @@ public class NgramMySQLConnector {
 		b.append(n);
 		b.append("grams WHERE");
 		for (int i = 1; i <= n; i++) {
+			if (i > 1) {
+				b.append(" AND");
+			}
 			b.append(" word" + i + " LIKE ?");
 		}
 		return b.toString();
@@ -136,6 +139,10 @@ public class NgramMySQLConnector {
 
 	public void close() throws SQLException {
 		connection.close();
+	}
+
+	public int getN() {
+		return n;
 	}
 
 }
