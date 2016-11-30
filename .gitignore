@@ -50,3 +50,6 @@ local.properties
 # Code Recommenders
 .recommenders/
 *.class
+target/classes/META-INF/MANIFEST.MF
+target/classes/META-INF/maven/Google-Ngrams/Google-Ngrams/pom.properties
+target/classes/META-INF/maven/Google-Ngrams/Google-Ngrams/pom.xml
