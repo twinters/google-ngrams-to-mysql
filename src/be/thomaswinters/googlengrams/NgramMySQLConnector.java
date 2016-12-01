@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class NgramMySQLConnector {
 
@@ -113,6 +115,38 @@ public class NgramMySQLConnector {
 			System.err.println("Got an exception!");
 			e.printStackTrace();
 		}
+	}
+
+	public void addAllCount(Map<List<String>, Long> map) {
+		// INSERT INTO tableName
+		// (column1,column2,column3,column4)
+		// VALUES
+		// ('value1' , 'value2', 'value3','value4'),
+		// ('value1' , 'value2', 'value3','value4'),
+		// ('value1' , 'value2', 'value3','value4');
+
+		StringBuilder b = new StringBuilder();
+		b.append("INSERT INTO " + n + "grams (");
+		for (int i = 1; i <= n; i++) {
+			b.append("word");
+			b.append(i);
+			b.append(", ");
+		}
+		b.append("count) VALUES ");
+		String values = map.entrySet().stream()
+				.map(e -> "(" + e.getKey().stream().map(f -> "'" + f + "'").collect(Collectors.joining(",")) + ", "
+						+ e.getValue() + ")")
+				.collect(Collectors.joining(", ")) + ";";
+		b.append(values);
+
+		try {
+			getConnection().createStatement().execute(b.toString());
+		} catch (SQLException e1) {
+			System.err.println("Got an exception with query!" + b);
+			e1.printStackTrace();
+			throw new RuntimeException(e1);
+		}
+
 	}
 	/*-********************************************-*/
 

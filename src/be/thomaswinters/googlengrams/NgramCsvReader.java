@@ -9,6 +9,13 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * Class that reads an (Google) n-gram file and is able to pass the ngram with
+ * its year and count with a lambda function
+ * 
+ * @author Thomas Winters
+ *
+ */
 public class NgramCsvReader {
 	private final String ngramCsvPath;
 	private final String seperator;
@@ -31,7 +38,7 @@ public class NgramCsvReader {
 			br = new BufferedReader(new FileReader(ngramCsvPath));
 			while ((line = br.readLine()) != null) {
 				String[] args = line.split(seperator);
-				List<String> ngram = Arrays.asList(args[0].split(wordSeperator));				
+				List<String> ngram = Arrays.asList(args[0].split(wordSeperator));
 				consumer.apply(ngram).apply(Integer.parseInt(args[1])).accept(Integer.parseInt(args[2]));
 			}
 		} catch (FileNotFoundException e) {
