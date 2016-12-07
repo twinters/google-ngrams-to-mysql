@@ -2,7 +2,6 @@ package be.thomaswinters.googlengrams;
 
 import java.net.URISyntaxException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +31,7 @@ public abstract class NgramLoader {
 		reader.convert(e -> f -> g -> store(e, f, g));
 
 		try {
+			endStoring();
 			connector.close();
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -43,6 +43,8 @@ public abstract class NgramLoader {
 	protected void store(List<String> words, int year, long count) {
 		connector.addCount(words, count);
 	}
+	
+	protected abstract void endStoring();
 
 
 }

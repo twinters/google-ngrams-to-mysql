@@ -45,7 +45,7 @@ public class NgramConstrainedLoader extends NgramLoader {
 	protected void store(List<String> words, int year, long count) {
 		if (shouldStore(words, year)) {
 			if (!words.equals(last)) {
-				if (!last.isEmpty() && shouldStoreCount(count)) {
+				if (!last.isEmpty() && shouldStoreCount(lastCount)) {
 					super.store(last, 0, lastCount);
 				}
 				last = words;
@@ -56,25 +56,31 @@ public class NgramConstrainedLoader extends NgramLoader {
 		}
 	}
 
-	// private void endStoring() {
-	// connector.addCount(last, lastCount);
-	// last = new ArrayList<>();
-	// lastCount = 0;
-	// }
+	@Override
+	protected void endStoring() {
+		super.store(last, 0, lastCount);
+		last = new ArrayList<>();
+		lastCount = 0;
+	}
 
 	public static void main(String[] args)
 			throws NumberFormatException, ClassNotFoundException, URISyntaxException, SQLException {
 
-		System.out.println("START 1 grams");
-		int n = 1;
-		int amountOfFiles = 10;
+		int n = 2;
+		int minOccurrences = 5;
+		
+		int begin = 0;
+		int end = 100;
+		 
+		System.out.println("START "+n+" grams");
 
-		for (int i = 0; i < amountOfFiles; i++) {
+		for (int i = begin; i < end; i++) {
 			System.out.println("Starting " + i);
-			NgramLoader loader = new NgramConstrainedLoader(
+			NgramConstrainedLoader loader = new NgramConstrainedLoader(
 					new NgramCsvReader("C:\\Users\\Thomas\\Desktop\\" + n + "gram\\googlebooks-eng-1M-" + n
 							+ "gram-20090715-" + i + ".csv"),
-					new NgramMySQLConnector(n, "localhost", 3306, "ngram", "ngram", "ngram"), 1970, 2008, 1);
+					new NgramMySQLConnector(n, "localhost", 3306, "ngram", "ngram", "ngram"), 1970, 2008,
+					minOccurrences);
 			loader.execute();
 		}
 		System.out.println("Finished");
