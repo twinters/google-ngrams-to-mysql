@@ -60,14 +60,18 @@ public class NgramMySQLConnector {
 	}
 	/*-********************************************-*/
 
+	/*-********************************************-*
+	 *  Query building
+	*-********************************************-*/
+
 	private String buildAddQuery(int n) {
 		if (n == 1) {
 			return "insert into 1grams (word1, count) values (?, ?)";
 		}
 		StringBuilder b = new StringBuilder();
 		b.append("insert into ");
-		b.append(n);
-		b.append("grams (");
+		b.append(getDatabaseName());
+		b.append(" (");
 		for (int i = 1; i <= n; i++) {
 			b.append("word" + i + ", ");
 		}
@@ -86,8 +90,8 @@ public class NgramMySQLConnector {
 		// SELECT * FROM 2grams WHERE word1 LIKE ? AND word2 LIKE ?
 		StringBuilder b = new StringBuilder();
 		b.append("SELECT * FROM ");
-		b.append(n);
-		b.append("grams WHERE");
+		b.append(getDatabaseName());
+		b.append(" WHERE");
 		for (int i = 1; i <= n; i++) {
 			if (i > 1) {
 				b.append(" AND");
@@ -96,10 +100,12 @@ public class NgramMySQLConnector {
 		}
 		return b.toString();
 	}
+	/*-********************************************-*/
 
 	/*-********************************************-*
 	 *  Mutators
 	*-********************************************-*/
+
 	public void addCount(List<String> words, long count) {
 		try {
 			// create the mysql insert preparedstatement
@@ -126,7 +132,7 @@ public class NgramMySQLConnector {
 		// ('value1' , 'value2', 'value3','value4');
 
 		StringBuilder b = new StringBuilder();
-		b.append("INSERT INTO " + n + "grams (");
+		b.append("INSERT INTO " + getDatabaseName() + " (");
 		for (int i = 1; i <= n; i++) {
 			b.append("word");
 			b.append(i);
@@ -163,6 +169,26 @@ public class NgramMySQLConnector {
 		// execute the preparedstatement
 		return getCountPS.executeQuery();
 	}
+
+	public ResultSet getCustomQuery(String query, String... args) throws SQLException {
+		// create the mysql insert preparedstatement
+		PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+		for (int i = 1; i <= args.length; i++) {
+			preparedStatement.setString(i, args[i-1]);
+		}
+
+		// execute the preparedstatement
+		return preparedStatement.executeQuery();
+	}
+	/*-********************************************-*/
+
+	/*-********************************************-*
+	 *  Helpers
+	*-********************************************-*/
+	public String getDatabaseName() {
+		return n + "grams";
+	}
+
 	/*-********************************************-*/
 
 	public static void main(String[] args) throws ClassNotFoundException, URISyntaxException, SQLException {
