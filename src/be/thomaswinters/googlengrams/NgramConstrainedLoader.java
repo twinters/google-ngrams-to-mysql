@@ -9,14 +9,16 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
+import be.thomaswinters.pos.WordTypeCalculator;
 import edu.mit.jwi.Dictionary;
-import edu.mit.jwi.item.IIndexWord;
 import edu.mit.jwi.item.POS;
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 public class NgramConstrainedLoader extends NgramLoader {
 
 	private final static String acceptedWords = "^[a-zA-Z\\-]+$";
 	private final static Pattern wordPattern = Pattern.compile(acceptedWords);
+
 	private final int minYear;
 	private final int maxYear;
 	private final long minOccurrences;
@@ -44,8 +46,21 @@ public class NgramConstrainedLoader extends NgramLoader {
 		return minYear <= year && year <= maxYear;
 	}
 
-	public boolean shouldStore(List<String> words, int year) {
-		return isAcceptedYear(year) && words.stream().allMatch(e -> isAlphabetical(e)) && constrainer.apply(words);
+	private List<String> lastChecked = new ArrayList<>();
+	private boolean lastCheckedResult;
+	
+	public boolean shouldStore(List<String> words) {
+		if (lastChecked.equals(words)) {
+			return lastCheckedResult;
+		}
+		boolean result =
+		// isAcceptedYear(year) &&
+		words.stream().allMatch(e -> isAlphabetical(e)) && constrainer.apply(words);
+		
+		lastChecked = words;
+		lastCheckedResult = result;
+		
+		return result;
 	}
 
 	public boolean shouldStoreCount(long count) {
@@ -57,7 +72,9 @@ public class NgramConstrainedLoader extends NgramLoader {
 
 	@Override
 	protected void store(List<String> words, int year, long count) {
-		if (shouldStore(words, year)) {
+		if (
+//				isAcceptedYear(year) &&
+				shouldStore(words)) {
 			if (!words.equals(last)) {
 				if (!last.isEmpty() && shouldStoreCount(lastCount)) {
 					super.store(last, 0, lastCount);
@@ -85,13 +102,18 @@ public class NgramConstrainedLoader extends NgramLoader {
 			e.printStackTrace();
 		}
 	}
-
+	private static final MaxentTagger tagger = new MaxentTagger("stanford-pos/english-bidirectional-distsim.tagger");
+	private static final WordTypeCalculator wordTypeCalculator = new WordTypeCalculator(dictionary, tagger);
+	
+	
+	
 	public static boolean isWordOfType(POS partOfSpeech, String word) {
-		IIndexWord idxWord = dictionary.getIndexWord(word, partOfSpeech);
-		if (idxWord == null || idxWord.getWordIDs().isEmpty()) {
-			return false;
-		}
-		return idxWord.getWordIDs().size() > 0;
+		return wordTypeCalculator.getWordTypes(word).contains(partOfSpeech);
+//		IIndexWord idxWord = dictionary.getIndexWord(word, partOfSpeech);
+//		if (idxWord == null || idxWord.getWordIDs().isEmpty()) {
+//			return false;
+//		}
+//		return idxWord.getWordIDs().size() > 0;
 	}
 
 	public static boolean isAdjectiveNounCombination(List<String> words) {
@@ -105,8 +127,13 @@ public class NgramConstrainedLoader extends NgramLoader {
 			throws NumberFormatException, ClassNotFoundException, URISyntaxException, SQLException {
 
 		int n = 2;
-		int minOccurrences = 5;
+//		int minOccurrences = 5;
+		int minOccurrences = 300;
 
+//		int minYear = 1970;
+		int minYear = 0;
+		int maxYear = 2008;
+		
 		int begin = 0;
 		int end = 100;
 
@@ -117,7 +144,7 @@ public class NgramConstrainedLoader extends NgramLoader {
 			NgramConstrainedLoader loader = new NgramConstrainedLoader(
 					new NgramCsvReader("C:\\Users\\Thomas\\Desktop\\" + n + "gram\\googlebooks-eng-1M-" + n
 							+ "gram-20090715-" + i + ".csv"),
-					new NgramMySQLConnector(n, "localhost", 3306, "ngram", "ngram", "ngram"), 1970, 2008,
+					new NgramMySQLConnector(n, "localhost", 3306, "ngram", "ngram", "ngram"), minYear, maxYear,
 					minOccurrences, NgramConstrainedLoader::isAdjectiveNounCombination);
 			loader.execute();
 		}
