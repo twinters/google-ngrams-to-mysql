@@ -16,8 +16,9 @@ import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 public class NgramConstrainedLoader extends NgramLoader {
 
-	private final static String acceptedWords = "^[a-zA-Z\\-]+$";
-	private final static Pattern wordPattern = Pattern.compile(acceptedWords);
+	private final static String ALL_WORDS = "^[a-zA-Z\\-]+$";
+	private final static String LOWERCASE_WORDS = "^[a-z\\-]+$";
+	private Pattern wordPattern;
 
 	private final int minYear;
 	private final int maxYear;
@@ -25,17 +26,23 @@ public class NgramConstrainedLoader extends NgramLoader {
 	private final Function<List<String>, Boolean> constrainer;
 
 	public NgramConstrainedLoader(NgramCsvReader reader, NgramMySQLConnector connector, int minYear, int maxYear,
-			int minOccurrences, Function<List<String>, Boolean> constrainer) {
+			int minOccurrences, Function<List<String>, Boolean> constrainer, boolean onlyAllowLowercase) {
 		super(reader, connector);
 		this.minYear = minYear;
 		this.maxYear = maxYear;
 		this.minOccurrences = minOccurrences;
 		this.constrainer = constrainer;
+		
+		if (onlyAllowLowercase) {
+			wordPattern = Pattern.compile(LOWERCASE_WORDS);
+		} else {
+			wordPattern =  Pattern.compile(ALL_WORDS);			
+		}
 	}
 
 	public NgramConstrainedLoader(NgramCsvReader reader, NgramMySQLConnector connector, int minYear, int maxYear,
-			int minOccurrences) {
-		this(reader, connector, minYear, maxYear, minOccurrences, e -> true);
+			int minOccurrences, boolean onlyAllowLowercase) {
+		this(reader, connector, minYear, maxYear, minOccurrences, (e -> true), onlyAllowLowercase);
 	}
 
 	public boolean isAlphabetical(String word) {
@@ -128,7 +135,7 @@ public class NgramConstrainedLoader extends NgramLoader {
 
 		int n = 2;
 //		int minOccurrences = 5;
-		int minOccurrences = 300;
+		int minOccurrences = 5;
 
 //		int minYear = 1970;
 		int minYear = 0;
@@ -145,7 +152,7 @@ public class NgramConstrainedLoader extends NgramLoader {
 					new NgramCsvReader("C:\\Users\\Thomas\\Desktop\\" + n + "gram\\googlebooks-eng-1M-" + n
 							+ "gram-20090715-" + i + ".csv"),
 					new NgramMySQLConnector(n, "localhost", 3306, "ngram", "ngram", "ngram"), minYear, maxYear,
-					minOccurrences, NgramConstrainedLoader::isAdjectiveNounCombination);
+					minOccurrences, NgramConstrainedLoader::isAdjectiveNounCombination, true);
 			loader.execute();
 		}
 		System.out.println("Finished");
