@@ -30,9 +30,49 @@ public class WordTypeCalculator {
 	private static final Map<POS, Set<String>> BLACKLIST;
 	static {
 		Builder<POS, Set<String>> blacklistB = ImmutableMap.builder();
-		blacklistB.put(POS.ADJECTIVE, new HashSet<>(Arrays.asList("on", "off", "in", "out", "under", "least", "about",
-				"whatever", "all", "up", "i", "both", "just", "like", "in","such","much","no","very","many")));
-		blacklistB.put(POS.NOUN, new HashSet<>(Arrays.asList("a","like", "i","have","as", "longer", "in", "more", "it","don","or","so","over")));
+		blacklistB.put(POS.ADJECTIVE, new HashSet<>(Arrays.asList(
+				// Numbers
+				"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
+				"thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "thirty",
+				"fourty", "fifty", "sixty", "seventy", "eigty", "ninety", "hundred", "thousand", "million", "billion",
+				"first", "second", "third", "fourth", "fifty", "sixth", "seventh", "eighth", "nineth", "tenth", "last",
+
+				// Quantifiers
+				"all", "any", "my", "other", "another", "only", "each", "every", "individual", "both", "each", "same",
+				"every", "many", "some", "more", "half", "quarter", "no", "such", "much", "very", "whole", "neither",
+				"kind", "what", "fewer", "various",
+
+				// Pronouns
+				"his", "her", "our", "your", "own",
+
+				// Directions
+				"up", "down", "left", "right", "on", "off", "in", "out", "under", "above", "top", "bottom", "over",
+				"under", "about",
+
+				// Comparative
+				"least", "most", "best", "better",
+
+				"about", "whatever", "i", "just", "like", "in", "after", "no", "through", "then", "same", "most",
+				"least", "less", "made", "true", "next", "set", "said", "then", "spare", "here", "there", "d", "lay",
+				"star", "unlike", "whatever", "likely", "even", "meet", "seeing", "meaning", "now", "union", "favorite")));
+		blacklistB.put(POS.NOUN, new HashSet<>(Arrays.asList(
+				// Numbers
+				"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
+				"thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "thirty",
+				"fourty", "fifty", "sixty", "seventy", "eigty", "ninety", "hundred", "thousand", "million", "billion",
+				"first", "second", "third", "fourth", "fifty", "sixth", "seventh", "eighth", "nineth", "tenth",
+
+				// Directions
+				 "north", "south", "east", "west", "round", "square",
+				
+				//
+				"a", "an", "like", "i", "have", "as", "longer", "in", "more", "it", "don", "or", "so", "over", "who", "might",
+				"are", "deep", "large", "now", "while", "get", "getting", "ill", "over", "there", "here", "then",
+				"inside", "kind", "sort", "two", "may", "as", "little", "local", "major", "may", "ten", "say", "large",
+				"even", "high", "slight", "extra", "fine", "well", "at", "modern", "black", "deep", "poor", "it",
+				"recent", "might", "short", "can", "better", "far", "common", "rough", "prior", "more", "like", "few",
+				"recent", "basic", "need", "middle", "open", "ethnic", "he", "she", "ill", "quick", "good", "anti",
+				"last", "there", "sweet", "now", "adams", "t", "still", "being","out")));
 		blacklistB.put(POS.ADVERB, new HashSet<>(Arrays.asList("")));
 		blacklistB.put(POS.VERB, new HashSet<>(Arrays.asList("")));
 
@@ -42,8 +82,12 @@ public class WordTypeCalculator {
 	private static final Map<POS, Set<String>> WHITELIST;
 	static {
 		Builder<POS, Set<String>> whitelistB = ImmutableMap.builder();
-		whitelistB.put(POS.ADJECTIVE, new HashSet<>(Arrays.asList("exploding", "ground","minding","bi","meta","beating","dumped","secured","crunchy","substituted", "steeped","hung", "misspelled","flavored","blowing","soon","check")));
-		whitelistB.put(POS.NOUN, new HashSet<>(Arrays.asList("blunt","skirts","myself","humping")));
+		whitelistB.put(POS.ADJECTIVE,
+				new HashSet<>(Arrays.asList("exploding", "ground", "minding", "bi", "meta", "beating", "dumped",
+						"secured", "crunchy", "substituted", "steeped", "hung", "misspelled", "flavored", "blowing",
+						"soon", "check")));
+		whitelistB.put(POS.NOUN, new HashSet<>(Arrays.asList("blunt", "skirts", "myself", "humping", "channels",
+				"finger", "end")));
 		whitelistB.put(POS.ADVERB, new HashSet<>(Arrays.asList("")));
 		whitelistB.put(POS.VERB, new HashSet<>(Arrays.asList("")));
 

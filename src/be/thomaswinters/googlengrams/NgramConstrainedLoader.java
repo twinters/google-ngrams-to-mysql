@@ -80,7 +80,6 @@ public class NgramConstrainedLoader extends NgramLoader {
 	@Override
 	protected void store(List<String> words, int year, long count) {
 		if (
-//				isAcceptedYear(year) &&
 				shouldStore(words)) {
 			if (!words.equals(last)) {
 				if (!last.isEmpty() && shouldStoreCount(lastCount)) {
@@ -135,7 +134,7 @@ public class NgramConstrainedLoader extends NgramLoader {
 
 		int n = 2;
 //		int minOccurrences = 5;
-		int minOccurrences = 5;
+		int minOccurrences = 100;
 
 //		int minYear = 1970;
 		int minYear = 0;
