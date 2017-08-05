@@ -40,7 +40,7 @@ public class WordTypeCalculator {
 				// Quantifiers
 				"all", "any", "my", "other", "another", "only", "each", "every", "individual", "both", "each", "same",
 				"every", "many", "some", "more", "half", "quarter", "no", "such", "much", "very", "whole", "neither",
-				"kind", "what", "fewer", "various",
+				"kind", "what", "fewer", "various", "entire", "cherry",
 
 				// Pronouns
 				"his", "her", "our", "your", "own",
@@ -50,29 +50,45 @@ public class WordTypeCalculator {
 				"under", "about",
 
 				// Comparative
-				"least", "most", "best", "better",
+				"least", "less", "more", "most", "best", "better", "strongest", "greatest","weakest", 
+
+
+				// Letters
+				"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
+				"v", "w", "x", "y", "z",
+				
+				// Verbs
+				"giving", "seeing", "meaning", 
 
 				"about", "whatever", "i", "just", "like", "in", "after", "no", "through", "then", "same", "most",
-				"least", "less", "made", "true", "next", "set", "said", "then", "spare", "here", "there", "d", "lay",
-				"star", "unlike", "whatever", "likely", "even", "meet", "seeing", "meaning", "now", "union", "favorite")));
+				"made", "true", "next", "set", "said", "then", "spare", "here", "there", "lay",
+				"star", "unlike", "whatever", "likely", "even", "meet", "now", "union", "favorite",
+				"away", "former","latter", "quality", "mere")));
 		blacklistB.put(POS.NOUN, new HashSet<>(Arrays.asList(
 				// Numbers
 				"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
 				"thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "thirty",
 				"fourty", "fifty", "sixty", "seventy", "eigty", "ninety", "hundred", "thousand", "million", "billion",
 				"first", "second", "third", "fourth", "fifty", "sixth", "seventh", "eighth", "nineth", "tenth",
+				"single", "double",
 
 				// Directions
-				 "north", "south", "east", "west", "round", "square",
-				
+				"up", "down", "left", "right", "on", "off", "in", "out", "under", "above", "top", "bottom", "over",
+				"under", "about", "north", "south", "east", "west", "round", "square", "upwards",
+
+				// Letters
+				"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
+				"v", "w", "x", "y", "z",
+
 				//
-				"a", "an", "like", "i", "have", "as", "longer", "in", "more", "it", "don", "or", "so", "over", "who", "might",
-				"are", "deep", "large", "now", "while", "get", "getting", "ill", "over", "there", "here", "then",
-				"inside", "kind", "sort", "two", "may", "as", "little", "local", "major", "may", "ten", "say", "large",
-				"even", "high", "slight", "extra", "fine", "well", "at", "modern", "black", "deep", "poor", "it",
-				"recent", "might", "short", "can", "better", "far", "common", "rough", "prior", "more", "like", "few",
-				"recent", "basic", "need", "middle", "open", "ethnic", "he", "she", "ill", "quick", "good", "anti",
-				"last", "there", "sweet", "now", "adams", "t", "still", "being","out")));
+				"a", "an", "like", "i", "have", "as", "longer", "in", "more", "it", "don", "or", "so", "over", "who",
+				"might", "are", "deep", "large", "now", "while", "get", "getting", "ill", "over", "there", "here",
+				"then", "inside", "kind", "sort", "two", "may", "as", "little", "local", "major", "may", "ten", "say",
+				"large", "even", "high", "slight", "extra", "fine", "well", "at", "modern", "black", "deep", "poor",
+				"it", "recent", "might", "short", "can", "better", "far", "common", "rough", "prior", "more", "like",
+				"few", "recent", "basic", "need", "middle", "open", "ethnic", "he", "she", "ill", "quick", "good",
+				"anti", "last", "there", "sweet", "now", "adams", "t", "still", "being", "out", "no", "do", "me", "old",
+				"io","will","ol")));
 		blacklistB.put(POS.ADVERB, new HashSet<>(Arrays.asList("")));
 		blacklistB.put(POS.VERB, new HashSet<>(Arrays.asList("")));
 
@@ -86,8 +102,8 @@ public class WordTypeCalculator {
 				new HashSet<>(Arrays.asList("exploding", "ground", "minding", "bi", "meta", "beating", "dumped",
 						"secured", "crunchy", "substituted", "steeped", "hung", "misspelled", "flavored", "blowing",
 						"soon", "check")));
-		whitelistB.put(POS.NOUN, new HashSet<>(Arrays.asList("blunt", "skirts", "myself", "humping", "channels",
-				"finger", "end")));
+		whitelistB.put(POS.NOUN,
+				new HashSet<>(Arrays.asList("blunt", "skirts", "myself", "humping", "channels", "finger", "end")));
 		whitelistB.put(POS.ADVERB, new HashSet<>(Arrays.asList("")));
 		whitelistB.put(POS.VERB, new HashSet<>(Arrays.asList("")));
 
