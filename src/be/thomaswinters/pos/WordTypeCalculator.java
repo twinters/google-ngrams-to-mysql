@@ -10,8 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 
@@ -50,20 +53,20 @@ public class WordTypeCalculator {
 				"under", "about",
 
 				// Comparative
-				"least", "less", "more", "most", "best", "better", "strongest", "greatest","weakest", 
-
+				"least", "less", "more", "most", "best", "better", "strongest", "greatest", "weakest", "biggest",
+				"bigger", "largest", "large", "smallest", "smaller",
 
 				// Letters
 				"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
 				"v", "w", "x", "y", "z",
-				
+
 				// Verbs
-				"giving", "seeing", "meaning", 
+				"giving", "seeing", "meaning", "present",
 
 				"about", "whatever", "i", "just", "like", "in", "after", "no", "through", "then", "same", "most",
-				"made", "true", "next", "set", "said", "then", "spare", "here", "there", "lay",
-				"star", "unlike", "whatever", "likely", "even", "meet", "now", "union", "favorite",
-				"away", "former","latter", "quality", "mere")));
+				"made", "true", "next", "set", "said", "then", "spare", "here", "there", "lay", "star", "unlike",
+				"whatever", "likely", "even", "meet", "now", "union", "favorite", "away", "former", "latter", "quality",
+				"mere", "few", "enough")));
 		blacklistB.put(POS.NOUN, new HashSet<>(Arrays.asList(
 				// Numbers
 				"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
@@ -79,25 +82,25 @@ public class WordTypeCalculator {
 				// Letters
 				"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
 				"v", "w", "x", "y", "z",
-				
+
 				// Verbs
-				"be","do","will",
-				
+				"be", "do", "will", "going", "drinking", "must", "bend", "plays", "found",
+
 				// Colours
 				"red", "green", "blue", "yellow", "purple", "orange", "teale", "black", "white",
-				
+
 				// Adjectives
-				"wild", 
+				"wild", "uncut", "main", "plain", "straight", "raw",
 
 				//
-				"something", "a", "an", "like", "i", "have", "as", "longer", "in", "more", "it", "don", "or", "so", "over", "who",
-				"might", "are", "deep", "large", "now", "while", "get", "getting", "ill", "over", "there", "here",
-				"then", "inside", "kind", "sort", "two", "may", "as", "little", "local", "major", "may", "ten", "say",
-				"large", "even", "high", "slight", "extra", "fine", "well", "at", "modern", "black", "deep", "poor",
-				"it", "recent", "might", "short", "can", "better", "far", "common", "rough", "prior", "more", "like",
-				"few", "recent", "basic", "need", "middle", "open", "ethnic", "he", "she", "ill", "quick", "good",
-				"anti", "last", "there", "sweet", "now", "adams", "still", "being", "out", "no",  "me", "old",
-				"io","ol", "same", "enough")));
+				"something", "a", "an", "like", "i", "have", "as", "longer", "in", "more", "it", "don", "or", "so",
+				"over", "who", "might", "are", "deep", "large", "now", "while", "get", "getting", "ill", "over",
+				"there", "here", "then", "inside", "kind", "sort", "two", "may", "as", "little", "local", "major",
+				"may", "ten", "say", "large", "even", "high", "slight", "extra", "fine", "well", "at", "modern",
+				"black", "deep", "poor", "it", "recent", "might", "short", "can", "better", "far", "common", "rough",
+				"prior", "more", "like", "few", "recent", "basic", "need", "middle", "open", "ethnic", "he", "she",
+				"ill", "quick", "good", "anti", "last", "there", "sweet", "now", "adams", "still", "being", "out", "no",
+				"me", "old", "io", "ol", "same", "enough", "thou")));
 		blacklistB.put(POS.ADVERB, new HashSet<>(Arrays.asList("")));
 		blacklistB.put(POS.VERB, new HashSet<>(Arrays.asList("")));
 
@@ -124,6 +127,8 @@ public class WordTypeCalculator {
 		this.tagger = tagger;
 	}
 
+	private final Cache<String, Collection<POS>> cache = CacheBuilder.newBuilder().maximumSize(200).build();
+
 	/**
 	 * Uses WordNet to detect the Part-of-Speech of a word, as well as the whitelist
 	 * 
@@ -131,28 +136,35 @@ public class WordTypeCalculator {
 	 * @return
 	 */
 	public Collection<POS> getWordTypes(String word) {
-		Set<POS> result = new HashSet<>(4);
+		try {
+			return cache.get(word, () -> {
+				Set<POS> result = new HashSet<>(4);
 
-		if (word.trim().isEmpty()) {
-			return result;
+				if (word.trim().isEmpty()) {
+					return result;
+				}
+
+				for (POS pos : POS.values()) {
+					IIndexWord wd = dictionary.getIndexWord(word, pos);
+					if (wd != null && !BLACKLIST.get(pos).contains(word)) {
+						result.add(pos);
+					}
+				}
+
+				Optional<POS> stanfordPOS = tagWordWithStanfordPOS(word);
+				if (stanfordPOS.isPresent() && !BLACKLIST.get(stanfordPOS.get()).contains(word)) {
+					result.add(stanfordPOS.get());
+				}
+
+				result.addAll(
+						WHITELIST.entrySet().stream().filter(e -> e.getValue().contains(word.trim().toLowerCase()))
+								.map(e -> e.getKey()).collect(Collectors.toList()));
+
+				return result;
+			});
+		} catch (ExecutionException e) {
+			throw new RuntimeException(e);
 		}
-
-		for (POS pos : POS.values()) {
-			IIndexWord wd = dictionary.getIndexWord(word, pos);
-			if (wd != null && !BLACKLIST.get(pos).contains(word)) {
-				result.add(pos);
-			}
-		}
-
-		Optional<POS> stanfordPOS = tagWordWithStanfordPOS(word);
-		if (stanfordPOS.isPresent() && !BLACKLIST.get(stanfordPOS.get()).contains(word)) {
-			result.add(stanfordPOS.get());
-		}
-
-		result.addAll(WHITELIST.entrySet().stream().filter(e -> e.getValue().contains(word.trim().toLowerCase()))
-				.map(e -> e.getKey()).collect(Collectors.toList()));
-
-		return result;
 	}
 
 	public Optional<POS> tagWordWithStanfordPOS(String word) {
