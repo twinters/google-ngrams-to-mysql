@@ -79,16 +79,25 @@ public class WordTypeCalculator {
 				// Letters
 				"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
 				"v", "w", "x", "y", "z",
+				
+				// Verbs
+				"be","do","will",
+				
+				// Colours
+				"red", "green", "blue", "yellow", "purple", "orange", "teale", "black", "white",
+				
+				// Adjectives
+				"wild", 
 
 				//
-				"a", "an", "like", "i", "have", "as", "longer", "in", "more", "it", "don", "or", "so", "over", "who",
+				"something", "a", "an", "like", "i", "have", "as", "longer", "in", "more", "it", "don", "or", "so", "over", "who",
 				"might", "are", "deep", "large", "now", "while", "get", "getting", "ill", "over", "there", "here",
 				"then", "inside", "kind", "sort", "two", "may", "as", "little", "local", "major", "may", "ten", "say",
 				"large", "even", "high", "slight", "extra", "fine", "well", "at", "modern", "black", "deep", "poor",
 				"it", "recent", "might", "short", "can", "better", "far", "common", "rough", "prior", "more", "like",
 				"few", "recent", "basic", "need", "middle", "open", "ethnic", "he", "she", "ill", "quick", "good",
-				"anti", "last", "there", "sweet", "now", "adams", "t", "still", "being", "out", "no", "do", "me", "old",
-				"io","will","ol")));
+				"anti", "last", "there", "sweet", "now", "adams", "still", "being", "out", "no",  "me", "old",
+				"io","ol", "same", "enough")));
 		blacklistB.put(POS.ADVERB, new HashSet<>(Arrays.asList("")));
 		blacklistB.put(POS.VERB, new HashSet<>(Arrays.asList("")));
 
