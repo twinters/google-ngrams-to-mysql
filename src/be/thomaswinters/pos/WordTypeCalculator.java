@@ -54,26 +54,26 @@ public class WordTypeCalculator {
 
 				// Comparative
 				"least", "less", "more", "most", "best", "better", "strongest", "greatest", "weakest", "biggest",
-				"bigger", "largest", "large", "smallest", "smaller",
+				"bigger", "largest", "large", "smallest", "smaller", "stronger",
 
 				// Letters
 				"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
 				"v", "w", "x", "y", "z",
 
 				// Verbs
-				"giving", "seeing", "meaning", "present",
+				"giving", "seeing", "meaning", "present", "looking","go","fly","becoming",
 
 				"about", "whatever", "i", "just", "like", "in", "after", "no", "through", "then", "same", "most",
 				"made", "true", "next", "set", "said", "then", "spare", "here", "there", "lay", "star", "unlike",
 				"whatever", "likely", "even", "meet", "now", "union", "favorite", "away", "former", "latter", "quality",
-				"mere", "few", "enough")));
+				"mere", "few", "enough","welcome","soon")));
 		blacklistB.put(POS.NOUN, new HashSet<>(Arrays.asList(
 				// Numbers
 				"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
 				"thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "thirty",
 				"fourty", "fifty", "sixty", "seventy", "eigty", "ninety", "hundred", "thousand", "million", "billion",
 				"first", "second", "third", "fourth", "fifty", "sixth", "seventh", "eighth", "nineth", "tenth",
-				"single", "double",
+				"single", "double","full",
 
 				// Directions
 				"up", "down", "left", "right", "on", "off", "in", "out", "under", "above", "top", "bottom", "over",
@@ -84,7 +84,7 @@ public class WordTypeCalculator {
 				"v", "w", "x", "y", "z",
 
 				// Verbs
-				"be", "do", "will", "going", "drinking", "must", "bend", "plays", "found",
+				"be", "do", "will", "going", "drinking", "must", "bend", "plays", "found", "feel",
 
 				// Colours
 				"red", "green", "blue", "yellow", "purple", "orange", "teale", "black", "white",
