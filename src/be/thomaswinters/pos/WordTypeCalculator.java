@@ -25,6 +25,13 @@ import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
+/**
+ * Calculates word types based on evidence in WordNet and in the Stanford POS
+ * tagger. It also uses a whitelist and a blacklist for exceptions
+ * 
+ * @author Thomas Winters
+ *
+ */
 public class WordTypeCalculator {
 
 	private final Dictionary dictionary;
@@ -61,19 +68,19 @@ public class WordTypeCalculator {
 				"v", "w", "x", "y", "z",
 
 				// Verbs
-				"giving", "seeing", "meaning", "present", "looking","go","fly","becoming",
+				"giving", "seeing", "meaning", "present", "looking", "go", "fly", "becoming",
 
 				"about", "whatever", "i", "just", "like", "in", "after", "no", "through", "then", "same", "most",
 				"made", "true", "next", "set", "said", "then", "spare", "here", "there", "lay", "star", "unlike",
 				"whatever", "likely", "even", "meet", "now", "union", "favorite", "away", "former", "latter", "quality",
-				"mere", "few", "enough","welcome","soon")));
+				"mere", "few", "enough", "welcome", "soon")));
 		blacklistB.put(POS.NOUN, new HashSet<>(Arrays.asList(
 				// Numbers
 				"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
 				"thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "thirty",
 				"fourty", "fifty", "sixty", "seventy", "eigty", "ninety", "hundred", "thousand", "million", "billion",
 				"first", "second", "third", "fourth", "fifty", "sixth", "seventh", "eighth", "nineth", "tenth",
-				"single", "double","full",
+				"single", "double", "full",
 
 				// Directions
 				"up", "down", "left", "right", "on", "off", "in", "out", "under", "above", "top", "bottom", "over",

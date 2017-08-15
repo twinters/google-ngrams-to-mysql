@@ -10,6 +10,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Class that can connect to a n-gram database and constructs simple add and get
+ * queries.
+ * 
+ * @author Thomas Winters
+ *
+ */
 public class NgramMySQLConnector {
 
 	public static final long AMOUNT_OF_1GRAMS_2008 = 561087129l;
@@ -174,7 +181,7 @@ public class NgramMySQLConnector {
 		// create the mysql insert preparedstatement
 		PreparedStatement preparedStatement = getConnection().prepareStatement(query);
 		for (int i = 1; i <= args.length; i++) {
-			preparedStatement.setString(i, args[i-1]);
+			preparedStatement.setString(i, args[i - 1]);
 		}
 
 		// execute the preparedstatement

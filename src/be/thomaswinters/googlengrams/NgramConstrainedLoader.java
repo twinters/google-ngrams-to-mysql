@@ -12,6 +12,12 @@ import com.beust.jcommander.JCommander;
 
 import be.thomaswinters.googlengrams.arguments.ConstrainedLoaderArguments;
 
+/**
+ * This class loads only a selected few of the tuples of provided n-grams.
+ * 
+ * @author Thomas Winters
+ *
+ */
 public class NgramConstrainedLoader extends NgramLoader {
 
 	private Pattern wordPattern;
@@ -90,12 +96,8 @@ public class NgramConstrainedLoader extends NgramLoader {
 		lastCount = 0;
 	}
 
-	public static void main(String[] args)
-			throws NumberFormatException, ClassNotFoundException, URISyntaxException, SQLException {
-
-		ConstrainedLoaderArguments arguments = new ConstrainedLoaderArguments();
-		JCommander.newBuilder().addObject(arguments).build().parse(args);
-
+	public static void load(ConstrainedLoaderArguments arguments)
+			throws ClassNotFoundException, URISyntaxException, SQLException {
 		System.out.println("START " + arguments.getN() + " grams");
 
 		for (int i = arguments.getBegin(); i < arguments.getEnd(); i++) {
@@ -108,8 +110,17 @@ public class NgramConstrainedLoader extends NgramLoader {
 					arguments.getConstrainer(), arguments.getAllowedRegex());
 			loader.execute();
 		}
+
 		System.out.println("Finished");
 
+	}
+
+	public static void main(String[] args)
+			throws NumberFormatException, ClassNotFoundException, URISyntaxException, SQLException {
+		ConstrainedLoaderArguments arguments = new ConstrainedLoaderArguments();
+		JCommander.newBuilder().addObject(arguments).build().parse(args);
+
+		load(arguments);
 	}
 
 }
