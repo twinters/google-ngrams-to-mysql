@@ -5,12 +5,12 @@ Java converter of Google Ngrams format to a MySQL database
 These scripts allow Google Ngrams of any size to be stored in a MySQL database for easier access.
 It also allows to constrain what kind of tuples (not) to store, e.g. on a minimum count, what years, only certain part of speech etc.
 
-# How to install
+## How to install
 
 In order to use this library, you need to install [Maven](https://maven.apache.org/).
 After installing Maven, you need it to download the dependencies specified in pom.xml.
 
-# How to run
+## How to run
 
 The MySQL database needs to be initialised with the database model stored in `res/database-model.mwb`.
 
