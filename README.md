@@ -8,7 +8,7 @@ It also allows to constrain what kind of tuples (not) to store, e.g. on a minimu
 ## How to install
 
 In order to use this library, you need to install [Maven](https://maven.apache.org/).
-After installing Maven, you need it to download the dependencies specified in pom.xml.
+After installing Maven, you need it to download the dependencies specified in `pom.xml`.
 
 ## How to run
 
