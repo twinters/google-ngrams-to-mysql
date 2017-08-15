@@ -127,7 +127,7 @@ public class WordTypeCalculator {
 		this.tagger = tagger;
 	}
 
-	private final Cache<String, Collection<POS>> cache = CacheBuilder.newBuilder().maximumSize(200).build();
+	private final Cache<String, Collection<POS>> cache = CacheBuilder.newBuilder().maximumSize(100).build();
 
 	/**
 	 * Uses WordNet to detect the Part-of-Speech of a word, as well as the whitelist

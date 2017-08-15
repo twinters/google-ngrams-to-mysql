@@ -1,6 +1,7 @@
 package be.thomaswinters.googlengrams;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,17 +18,17 @@ import java.util.function.Function;
  *
  */
 public class NgramCsvReader {
-	private final String ngramCsvPath;
+	private final File ngramCsvPath;
 	private final String seperator;
 	private final String wordSeperator;
 
-	public NgramCsvReader(String ngramCsvPath, String seperator, String wordSeperator) {
+	public NgramCsvReader(File ngramCsvPath, String seperator, String wordSeperator) {
 		this.ngramCsvPath = ngramCsvPath;
 		this.seperator = seperator;
 		this.wordSeperator = wordSeperator;
 	}
 
-	public NgramCsvReader(String ngramCsvPath) {
+	public NgramCsvReader(File ngramCsvPath) {
 		this(ngramCsvPath, "\t", " ");
 	}
 
@@ -57,8 +58,7 @@ public class NgramCsvReader {
 	}
 
 	public static void main(String[] args) {
-		NgramCsvReader reader = new NgramCsvReader(
-				"C:\\Users\\Thomas\\Desktop\\1grams\\googlebooks-eng-1M-1gram-20090715-0.csv");
+		NgramCsvReader reader = new NgramCsvReader(new File(args[0]));
 		reader.convert(e -> f -> g -> System.out.println(e + "->" + f + "->" + g));
 	}
 }
