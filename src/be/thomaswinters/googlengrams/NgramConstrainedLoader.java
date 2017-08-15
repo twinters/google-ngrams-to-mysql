@@ -54,7 +54,7 @@ public class NgramConstrainedLoader extends NgramLoader {
 	private List<String> lastChecked = new ArrayList<>();
 	private boolean lastCheckedResult;
 
-	public boolean shouldStore(List<String> words, int year) {
+	private boolean shouldStore(List<String> words, int year) {
 		if (lastChecked.equals(words)) {
 			return lastCheckedResult;
 		}
@@ -67,7 +67,7 @@ public class NgramConstrainedLoader extends NgramLoader {
 		return result;
 	}
 
-	public boolean shouldStoreCount(long count) {
+	private boolean shouldStoreCount(long count) {
 		return count >= minOccurrences;
 	}
 

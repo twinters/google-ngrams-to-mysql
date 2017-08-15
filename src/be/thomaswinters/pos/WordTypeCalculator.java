@@ -174,7 +174,13 @@ public class WordTypeCalculator {
 		}
 	}
 
-	public Optional<POS> tagWordWithStanfordPOS(String word) {
+	/**
+	 * Calculates a tag based on the Stanford POS tagger
+	 * 
+	 * @param word
+	 * @return
+	 */
+	private Optional<POS> tagWordWithStanfordPOS(String word) {
 		return convertToWordnetPOS(tagWordWithStanford(word));
 	}
 
@@ -185,7 +191,7 @@ public class WordTypeCalculator {
 	 * @param word
 	 * @return
 	 */
-	public String tagWordWithStanford(String word) {
+	private String tagWordWithStanford(String word) {
 		List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new StringReader(word));
 		List<HasWord> sentence = sentences.get(0);
 		List<TaggedWord> tSentence = tagger.tagSentence(sentence);
@@ -201,7 +207,7 @@ public class WordTypeCalculator {
 	 * @param word
 	 * @return
 	 */
-	public List<TaggedWord> tagSentenceWithStanford(String sentence) {
+	private List<TaggedWord> tagSentenceWithStanford(String sentence) {
 		List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new StringReader(sentence));
 
 		List<TaggedWord> result = new ArrayList<>();
@@ -212,7 +218,15 @@ public class WordTypeCalculator {
 		return result;
 	}
 
-	public boolean isAllowedToBeOfType(String word, POS pos) {
+	/**
+	 * Checks if a word is allowed to have a certain tag for a word according to the
+	 * blacklist
+	 * 
+	 * @param word
+	 * @param pos
+	 * @return
+	 */
+	private boolean isAllowedToBeOfType(String word, POS pos) {
 		return !BLACKLIST.get(pos).contains(word.toLowerCase().trim());
 	}
 
