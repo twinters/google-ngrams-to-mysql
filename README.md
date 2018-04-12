@@ -24,7 +24,7 @@ The main method of `NGramConstrainedLoader` can be run in order to start the sto
 |-minOccurrences | Minimum frequency in order to be stored when all occurrences over all the allowed years are summed|
 |-minYear | Minimum year to get frequencies of|
 |-maxYear | Maximum year to get frequencies of|
-|-beginIndex | Index of the file to start from|
+|-beginIndex | Index of the file to start from, this allows for partially loading the data such that it can be continued later. |
 |-endIndex | Index of the file to end with|
 |-constrainer | Constraint for storing. Currently implemented: 'all' and 'adjectivenoun'.|
 |-allowedRegex | Constrains every words of a stored tuple to adhere to these regex. Implemented shortcut handles: 'all', 'allwords' and 'lowercase'|
