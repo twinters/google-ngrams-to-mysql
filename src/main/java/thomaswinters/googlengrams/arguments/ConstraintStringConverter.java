@@ -1,4 +1,4 @@
-package be.thomaswinters.googlengrams.arguments;
+package thomaswinters.googlengrams.arguments;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.util.function.Function;
 import com.beust.jcommander.IStringConverter;
 import com.beust.jcommander.ParameterException;
 
-import be.thomaswinters.pos.WordTypeCalculator;
+import thomaswinters.pos.WordTypeCalculator;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.item.POS;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;

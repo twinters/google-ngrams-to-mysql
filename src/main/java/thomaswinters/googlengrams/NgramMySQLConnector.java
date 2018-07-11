@@ -1,4 +1,4 @@
-package be.thomaswinters.googlengrams;
+package thomaswinters.googlengrams;
 
 import java.net.URISyntaxException;
 import java.sql.Connection;

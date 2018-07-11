@@ -1,4 +1,4 @@
-package be.thomaswinters.googlengrams;
+package thomaswinters.googlengrams;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 import com.beust.jcommander.JCommander;
 
-import be.thomaswinters.googlengrams.arguments.ConstrainedLoaderArguments;
+import thomaswinters.googlengrams.arguments.ConstrainedLoaderArguments;
 
 /**
  * This class loads only a selected few of the tuples of provided n-grams.

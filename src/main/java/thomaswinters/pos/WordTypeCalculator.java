@@ -1,4 +1,4 @@
-package be.thomaswinters.pos;
+package thomaswinters.pos;
 
 import java.io.StringReader;
 import java.util.ArrayList;

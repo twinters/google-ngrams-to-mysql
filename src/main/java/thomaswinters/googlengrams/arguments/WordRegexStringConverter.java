@@ -1,4 +1,4 @@
-package be.thomaswinters.googlengrams.arguments;
+package thomaswinters.googlengrams.arguments;
 
 import com.beust.jcommander.IStringConverter;
 
