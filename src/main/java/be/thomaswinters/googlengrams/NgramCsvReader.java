@@ -1,4 +1,4 @@
-package thomaswinters.googlengrams;
+package be.thomaswinters.googlengrams;
 
 import java.io.BufferedReader;
 import java.io.File;

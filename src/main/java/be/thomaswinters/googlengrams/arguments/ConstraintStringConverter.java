@@ -1,10 +1,11 @@
-package thomaswinters.googlengrams.arguments;
+package be.thomaswinters.googlengrams.arguments;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Function;
 
+import be.thomaswinters.pos.WordTypeCalculator;
 import com.beust.jcommander.IStringConverter;
 import com.beust.jcommander.ParameterException;
 
