@@ -12,7 +12,7 @@ After installing Maven, you need it to download the dependencies specified in `p
 
 ## How to run
 
-The MySQL database needs to be initialised with the database model stored in `res/database-model.mwb`.
+The MySQL database needs to be initialised with the database model stored in `database-model.mwb`.
 
 The main method of `NGramConstrainedLoader` can be run in order to start the storing process with several different arguments.
 
