@@ -14,7 +14,7 @@ import java.util.function.Function;
 
 public class ConstraintStringConverter implements IStringConverter<Function<List<String>, Boolean>> {
 
-    private static final Dictionary dictionary = new Dictionary(new File("./dict/"));
+    private static final Dictionary dictionary = new Dictionary(ClassLoader.getSystemResource("dict/"));
 
     /*-********************************************-*
      *  WordTypes

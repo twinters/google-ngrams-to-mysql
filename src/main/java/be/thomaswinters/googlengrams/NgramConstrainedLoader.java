@@ -51,7 +51,7 @@ public class NgramConstrainedLoader extends NgramLoader {
         for (int i = arguments.getBegin(); i < arguments.getEnd(); i++) {
             System.out.println("Starting " + i);
             NgramConstrainedLoader loader = new NgramConstrainedLoader(
-                    new NgramCsvReader(new File(arguments.getFolder() + arguments.getFilePrefix() + i + ".csv")),
+                    new NgramCsvReader(new File(arguments.getFolder(), arguments.getFilePrefix() + i + ".csv")),
                     new NgramMySQLConnector(arguments.getN(), arguments.getHost(), arguments.getPort(),
                             arguments.getUsername(), arguments.getPassword(), arguments.getDatabaseName()),
                     arguments.getMinYear(), arguments.getMaxYear(), arguments.getMinOccurrences(),
