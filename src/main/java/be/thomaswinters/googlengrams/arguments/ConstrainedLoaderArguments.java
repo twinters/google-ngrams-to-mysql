@@ -1,11 +1,11 @@
 package be.thomaswinters.googlengrams.arguments;
 
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.converters.FileConverter;
+
 import java.io.File;
 import java.util.List;
 import java.util.function.Function;
-
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.converters.FileConverter;
 
 public class ConstrainedLoaderArguments {
 
